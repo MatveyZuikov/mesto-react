@@ -19,7 +19,7 @@ function Main(props) {
     api.getUserInfo().then((data) => {
       setUserName(data.name);
       setUserDescription(data.about);
-      // setUserAvatar(data.avatar);
+      setUserAvatar(data.avatar);
     });
   });
 
@@ -30,8 +30,8 @@ function Main(props) {
           <div className="profile__avatar-container">
             <img
               className="profile__avatar"
-              // style={{ backgroundImage: `url(${userAvatar})` }}
-              src={userAvatar}
+              style={{ backgroundImage: `url(${userAvatar})` }}
+              src='/'
               alt="аватар профиля"
             />
             <button
@@ -58,7 +58,9 @@ function Main(props) {
         ></button>
       </section>
       <section className="photo-grid">
-        <Card cards={cards}/>
+        {cards.map((card)=>(
+          <Card card={card} onCardClick={props.onCardClick}/>
+        ))} 
         </section>
     </main>
   );
