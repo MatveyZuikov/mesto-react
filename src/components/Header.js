@@ -5,7 +5,6 @@ function Header() {
     <header className="header">
       <img
         className="header__logo"
-        // src="<%=require('./images/logo.svg')%>"
         src={logo}
         alt="лого"
       />
