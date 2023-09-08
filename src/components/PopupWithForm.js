@@ -11,7 +11,7 @@ export default function PopupWithForm(props) {
             type="submit"
             disabled
           >
-            Сохранить
+            {props.buttonText}
           </button>
         </form>
       </div>

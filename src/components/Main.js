@@ -10,18 +10,28 @@ function Main(props) {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getInitialCards().then((data) => {
-      setCards(data);
-    });
+    api
+      .getInitialCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   React.useEffect(() => {
-    api.getUserInfo().then((data) => {
-      setUserName(data.name);
-      setUserDescription(data.about);
-      setUserAvatar(data.avatar);
-    });
-  });
+    api
+      .getUserInfo()
+      .then((data) => {
+        setUserName(data.name);
+        setUserDescription(data.about);
+        setUserAvatar(data.avatar);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },[]);
 
   return (
     <main className="content">
@@ -31,7 +41,7 @@ function Main(props) {
             <img
               className="profile__avatar"
               style={{ backgroundImage: `url(${userAvatar})` }}
-              src='/'
+              src="/"
               alt="аватар профиля"
             />
             <button
@@ -58,10 +68,10 @@ function Main(props) {
         ></button>
       </section>
       <section className="photo-grid">
-        {cards.map((card)=>(
-          <Card card={card} onCardClick={props.onCardClick}/>
-        ))} 
-        </section>
+        {cards.map((card) => (
+          <Card card={card} key={card._id} onCardClick={props.onCardClick} />
+        ))}
+      </section>
     </main>
   );
 }
