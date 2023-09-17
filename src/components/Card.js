@@ -1,22 +1,40 @@
-export default function Card(props) {
+import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+
+export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const isOwn = card.owner._id === currentUser._id;
+  const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const cardLikeButtonClassName = ( 
+    `photo-grid__like ${isLiked && 'photo-grid__like_active'}` 
+  );; 
+
   function handleClick() {
-    props.onCardClick(props.card);
+    onCardClick(card);
+  }
+
+  function handleLikeClick() {
+    onCardLike(card);
+  }
+
+  function handleDeleteClick() {
+    onCardDelete(card);
   }
   return (
     <>
-      <div className="photo-grid__element" key={props.card._id}>
-        <button className="photo-grid__bin" type="button"></button>
+      <div className="photo-grid__element" key={card._id}>
+        {isOwn && <button className="photo-grid__bin" type="button" onClick={handleDeleteClick}/>}
         <img
           className="photo-grid__photo"
-          src={props.card.link}
-          alt={props.card.name}
+          src={card.link}
+          alt={card.name}
           onClick={handleClick}
         />
         <div className="photo-grid__container">
-          <h2 className="photo-grid__name">{props.card.name}</h2>
+          <h2 className="photo-grid__name">{card.name}</h2>
           <div className="photo-grid__like-container">
-            <button className="photo-grid__like" type="button"></button>
-            <p className="photo-grid__like-amount">{props.card.likes.length}</p>
+            <button className={cardLikeButtonClassName} type="button" onClick={handleLikeClick}></button>
+            <p className="photo-grid__like-amount">{card.likes.length}</p>
           </div>
         </div>
       </div>
