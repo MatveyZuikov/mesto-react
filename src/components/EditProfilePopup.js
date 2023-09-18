@@ -3,14 +3,14 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
-  const [name, setName] = React.useState('');
-  const [description, setDescription] = React.useState('');
+  const [name, setName] = React.useState("");
+  const [description, setDescription] = React.useState("");
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]); 
+  }, [currentUser, isOpen]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -19,6 +19,8 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       name,
       about: description,
     });
+
+    onClose();
   }
 
   function handleNameChange(e) {
@@ -44,7 +46,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         required
         minLength="2"
         maxLength="40"
-        value={name}
+        value={name || ""}
         onChange={handleNameChange}
       />
       <span className="popup__input-error popup__input-error_title_name"></span>
@@ -56,7 +58,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         required
         minLength="2"
         maxLength="200"
-        value={description}
+        value={description || ""}
         onChange={handleDescriptionChange}
       />
       <span className="popup__input-error popup__input-error_title_job"></span>
